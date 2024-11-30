@@ -5,11 +5,11 @@ use url::Url;
 
 #[derive(Parser, Debug)]
 #[command(version, about)]
-struct Params {
+pub struct Params {
     #[arg(short, long, default_value = "https://botifactory.izzys.place")]
-    base_url: Url,
+    pub base_url: Url,
     #[command(subcommand)]
-    command: Commands,
+    pub command: Commands,
 }
 
 #[derive(Args, Debug)]
@@ -63,13 +63,13 @@ enum Commands {
 }
 
 #[derive(ValueEnum, Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
-enum ProjectVerb {
+pub enum ProjectVerb {
     Create,
     Show,
 }
 
 #[derive(ValueEnum, Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
-enum ChannelVerb {
+pub enum ChannelVerb {
     Create,
     Show,
 }
@@ -92,7 +92,7 @@ pub fn parse_parameters() {
     println!("hello world");
 
     match args.command {
-        (Commands::Project { name, project_verb }) => {
+        Commands::Project { name, project_verb } => {
             println!("project subcommand");
             match project_verb {
                 ProjectVerb::Show {} => {
@@ -103,11 +103,11 @@ pub fn parse_parameters() {
                 }
             }
         }
-        (Commands::Channel {
+        Commands::Channel {
             project_name,
             channel_verb,
             identifier,
-        }) => {
+        } => {
             println!("channel subcommand");
             match channel_verb {
                 ChannelVerb::Create => {
@@ -118,12 +118,12 @@ pub fn parse_parameters() {
                 }
             }
         }
-        (Commands::Release {
+        Commands::Release {
             project_name,
             channel_name,
             release_verb,
             identifier,
-        }) => {
+        } => {
             println!("release subcommand");
             match release_verb {
                 ReleaseVerb::Show => {
