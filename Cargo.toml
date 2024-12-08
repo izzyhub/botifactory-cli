@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-botifactory-common = { path = "../botifactory-common" }
-#botifactory-common = { git = "https://github.com/izzyhub/botifactory-common" }
+#botifactory-common = { path = "../botifactory-common" }
+botifactory-common = { git = "https://github.com/izzyhub/botifactory-common" }
 anyhow = "1.0.93"
 clap = { version = "4.5.21", features = ["derive"] }
 config = "0.14.1"
