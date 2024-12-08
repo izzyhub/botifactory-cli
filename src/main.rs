@@ -75,7 +75,6 @@ async fn main() -> Result<()> {
                         let channel_api = api.channel(id);
                         let response = channel_api.get_channel().await?;
                         println!("response: {response}");
-                        println!("show verb");
                     }
                 }
             }
@@ -98,7 +97,7 @@ async fn main() -> Result<()> {
                                 identifier.id.expect("Not sure how this happened"),
                             ))
                         } else {
-                            println!("Need a releasechannel name or a releasechannel id to show a release");
+                            println!("Need a release name or a releasechannel id to show a release");
                             Err(CLIError::BadArguments)
                         }?;
 
@@ -142,27 +141,20 @@ async fn main() -> Result<()> {
         use simple_params::*;
         let settings = EnvSettings::from_env()?;
         let args = simple_params::Params::parse();
-        println!("base_url: {}", settings.base_url);
-        println!("project_name: {}", settings.project_name);
         let api = Botifactory::new(settings.base_url, &settings.project_name);
 
         match args.command {
             Commands::Project { verb } => {
-                println!("simple project");
                 match verb {
                     ProjectVerb::Show => {
-                        println!("project show");
-                        let url = api.get_project_url()?;
-                        println!("project_url: {url}");
+                        //let url = api.get_project_url()?;
+                        //println!("project_url: {url}");
                         let response = api.get_project().await?;
-                        println!("response: {response}");
                     }
                     ProjectVerb::Create => {
-                        println!("project create");
-                        let url = api.new_project_url()?;
-                        println!("project_url: {url}");
+                        //let url = api.new_project_url()?;
+                        //println!("project_url: {url}");
                         let (response, _) = api.new_project(&settings.project_name).await?;
-                        println!("response: {response}");
                     }
                 }
             }
@@ -181,15 +173,12 @@ async fn main() -> Result<()> {
                         Err(CLIError::BadArguments)
                     }?;
 
-                    println!("show channel");
                     let channel = api.channel(id);
-                    let url = channel.get_channel_url()?;
-                    println!("url: {url}");
+                    //let url = channel.get_channel_url()?;
+                    //println!("url: {url}");
                     let response = channel.get_channel().await?;
-                    println!("response: {response}");
                 }
                 ChannelVerb::Create => {
-                    println!("create channel");
                     let channel_name = if settings.channel_name.is_some() {
                         Ok(settings.channel_name.expect("Not sure how this happened"))
                     } else {
@@ -197,11 +186,10 @@ async fn main() -> Result<()> {
                         Err(CLIError::BadArguments)
                     }?;
 
-                    let url = api.create_channel_url()?;
-                    println!("url: {url}");
+                    //let url = api.create_channel_url()?;
+                    //println!("url: {url}");
 
                     let (channel_json, _) = api.new_channel(&channel_name).await?;
-                    println!("channel: {channel_json}")
                 }
             },
             Commands::Release { verb } => {
@@ -219,7 +207,6 @@ async fn main() -> Result<()> {
                             println!("Need a channel name or a channel id to show a channel");
                             Err(CLIError::BadArguments)
                         }?;
-                        println!("channel_id: {channel_id:#?}");
 
                         let channel_api = api.channel(channel_id);
 
@@ -235,15 +222,13 @@ async fn main() -> Result<()> {
                             println!("Need a releasechannel name or a releasechannel id to show a release");
                             Err(CLIError::BadArguments)
                         }?;
-                        println!("release_id: {release_id:#?}");
+                        //println!("release_id: {release_id:#?}");
                         let release_api = channel_api.release(release_id);
-                        let url = release_api.release_url()?;
-                        println!("url: {url}");
+                        //let url = release_api.release_url()?;
+                        //println!("url: {url}");
 
                         let response = release_api.release_info().await?;
                         println!("response: {response}");
-
-                        println!("release verb show");
                     }
                     ReleaseVerb::Create { path, version } => {
                         let channel_id = if settings.channel_name.is_some() {
@@ -262,11 +247,8 @@ async fn main() -> Result<()> {
 
                         let channel_api = api.channel(channel_id);
 
-                        let url = channel_api.new_release_url()?;
-                        println!("url: {url}");
-
-                        println!("release verb create");
-                        println!("path: {path:#?}");
+                        //let url = channel_api.new_release_url()?;
+                        //println!("url: {url}");
 
                         let (release_json, _) = channel_api
                             .new_release(NewRelease::new(version, path))
@@ -288,7 +270,7 @@ async fn main() -> Result<()> {
                             println!("Need a channel name or a channel id to show a channel");
                             Err(CLIError::BadArguments)
                         }?;
-                        println!("channel_id: {channel_id:#?}");
+                        //println!("channel_id: {channel_id:#?}");
 
                         let channel_api = api.channel(channel_id);
 
@@ -306,8 +288,8 @@ async fn main() -> Result<()> {
                         }?;
                         println!("release_id: {release_id:#?}");
                         let release_api = channel_api.release(release_id);
-                        let url = release_api.release_url()?;
-                        println!("url: {url}");
+                        //let url = release_api.release_url()?;
+                        //println!("url: {url}");
 
                         release_api.release_binary_path(path).await?;
                         println!("dl finished");
