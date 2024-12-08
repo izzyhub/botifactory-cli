@@ -14,30 +14,30 @@ pub struct Params {
 
 #[derive(Args, Debug)]
 #[group(required = true, multiple = false)]
-struct ChannelIdentifier {
+pub struct ChannelIdentifier {
     #[arg(long)]
-    name: Option<String>,
+    pub name: Option<String>,
     #[arg(long)]
-    id: Option<i64>,
+    pub id: Option<i64>,
 }
 
 #[derive(Args, Debug)]
 #[group(required = true, multiple = false)]
-struct ReleaseIdentifier {
+pub struct ReleaseIdentifier {
     #[arg(long)]
-    name: Option<String>,
+    pub name: Option<String>,
     #[arg(long)]
-    id: Option<i64>,
+    pub id: Option<i64>,
 }
 
 #[derive(Subcommand, Debug)]
-enum Commands {
+pub enum Commands {
     Project {
         #[arg(short, long)]
         name: String,
 
         #[arg(value_enum)]
-        project_verb: ProjectVerb,
+        verb: ProjectVerb,
     },
     Channel {
         #[arg(short, long)]
@@ -47,7 +47,7 @@ enum Commands {
         identifier: ChannelIdentifier,
 
         #[arg(value_enum)]
-        channel_verb: ChannelVerb,
+        verb: ChannelVerb,
     },
     Release {
         #[arg(short, long)]
@@ -58,7 +58,7 @@ enum Commands {
         identifier: ReleaseIdentifier,
 
         #[command(subcommand)]
-        release_verb: ReleaseVerb,
+        verb: ReleaseVerb,
     },
 }
 
@@ -75,75 +75,18 @@ pub enum ChannelVerb {
 }
 
 #[derive(Subcommand, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-enum ReleaseVerb {
+pub enum ReleaseVerb {
     Create {
         #[arg(short, long)]
         path: PathBuf,
+        #[arg(long)]
+        version: String,
     },
     Show,
     Download {
         #[arg(short, long)]
         path: PathBuf,
     },
-}
-
-pub fn parse_parameters() {
-    let args = Params::parse();
-    println!("hello world");
-
-    match args.command {
-        Commands::Project { name, project_verb } => {
-            println!("project subcommand");
-            match project_verb {
-                ProjectVerb::Show {} => {
-                    println!("project show subcommand");
-                }
-                ProjectVerb::Create {} => {
-                    println!("project create subcommand");
-                }
-            }
-        }
-        Commands::Channel {
-            project_name,
-            channel_verb,
-            identifier,
-        } => {
-            println!("channel subcommand");
-            match channel_verb {
-                ChannelVerb::Create => {
-                    println!("create verb");
-                }
-                ChannelVerb::Show => {
-                    println!("show verb");
-                }
-            }
-        }
-        Commands::Release {
-            project_name,
-            channel_name,
-            release_verb,
-            identifier,
-        } => {
-            println!("release subcommand");
-            match release_verb {
-                ReleaseVerb::Show => {
-                    println!("show verb");
-                }
-                ReleaseVerb::Create { path } => {
-                    println!(
-                        "theortically would upload whatever's at: {}",
-                        path.display()
-                    );
-                }
-                ReleaseVerb::Download { path } => {
-                    println!(
-                        "theortically would download to whatever's at: {}",
-                        path.display()
-                    );
-                }
-            }
-        }
-    }
 }
 
 #[test]

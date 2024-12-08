@@ -1,5 +1,6 @@
 use crate::parameters::{ChannelVerb, ProjectVerb};
-use clap::{Args, Parser, Subcommand, ValueEnum};
+use clap::{Parser, Subcommand};
+use std::path::PathBuf;
 
 #[derive(Parser, Debug)]
 #[command(version, about)]
@@ -8,22 +9,33 @@ pub struct Params {
     pub command: Commands,
 }
 
-#[derive(ValueEnum, Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Subcommand, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum ReleaseVerb {
-    Create,
+    Create {
+        #[arg(short, long)]
+        path: PathBuf,
+        #[arg(long)]
+        version: String,
+    },
     Show,
-    Download,
+    Download {
+        #[arg(short, long)]
+        path: PathBuf,
+    },
 }
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    Project { verb: ProjectVerb },
-    Channel { verb: ChannelVerb },
-    Release { verb: ReleaseVerb },
-}
-
-pub fn parse_parameters() {
-    let args = Params::parse();
+    Project {
+        verb: ProjectVerb,
+    },
+    Channel {
+        verb: ChannelVerb,
+    },
+    Release {
+        #[command(subcommand)]
+        verb: ReleaseVerb,
+    },
 }
 
 #[test]

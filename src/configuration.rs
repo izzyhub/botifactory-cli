@@ -1,15 +1,12 @@
-use crate::error::*;
-use botifactory_common::{botifactory_api::Botifactory, error::BotifactoryError};
 use config::Config;
 
-use serde::{Deserialize, Deserializer};
+use serde::Deserialize;
 use std::path::PathBuf;
 
-use clap::{Args, Parser, Subcommand, ValueEnum};
 use url::Url;
 
-pub const CONFIG_PATH_ENVIRONMENT_KEY: &'static str = "BOTIFACTORY_CLI_CONFIG_FILE";
-pub const CONFIG_ENVIRONMENT_KEY: &'static str = "BOTIFACTORY_CLI_USE_PURE_ENV";
+pub const CONFIG_PATH_ENVIRONMENT_KEY: &str = "BOTIFACTORY_CLI_CONFIG_FILE";
+pub const CONFIG_ENVIRONMENT_KEY: &str = "BOTIFACTORY_CLI_USE_PURE_ENV";
 
 #[derive(Debug, Deserialize, PartialEq, Eq)]
 pub struct EnvSettings {
@@ -37,7 +34,7 @@ impl EnvSettings {
 
         builder
             .add_source(
-                config::Environment::with_prefix("BOTIFACTORY_CLI_")
+                config::Environment::with_prefix("BOTIFACTORY_CLI")
                     .convert_case(config::Case::Snake)
                     .separator("__")
                     .list_separator(" "),

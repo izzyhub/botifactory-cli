@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-#botifactory-common = { path = "../botifactory-common" }
-botifactory-common = { git = "https://github.com/izzyhub/botifactory-common" }
+botifactory-common = { path = "../botifactory-common" }
+#botifactory-common = { git = "https://github.com/izzyhub/botifactory-common" }
 anyhow = "1.0.93"
 clap = { version = "4.5.21", features = ["derive"] }
 config = "0.14.1"
@@ -14,3 +14,5 @@ serde = "1.0.215"
 thiserror = "2.0.3"
 url = { version = "2.5.4", features = ["std", "serde"] }
 tokio = { version = "1.41.1", features = ["full"] }
+display_json = "0.2.1"
+serde_json = "1.0.133"
