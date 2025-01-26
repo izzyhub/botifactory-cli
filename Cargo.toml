@@ -4,11 +4,13 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+#botifactory-types = { path = "../botifactory-types" }
+botifactory-types = { git = "https://github.com/izzyhub/botifactory-types" }
 #botifactory-common = { path = "../botifactory-common" }
 botifactory-common = { git = "https://github.com/izzyhub/botifactory-common" }
 anyhow = "1.0.93"
 clap = { version = "4.5.21", features = ["derive"] }
-config = "0.14.1"
+config = "0.15.6"
 reqwest = "0.12.9"
 serde = "1.0.215"
 thiserror = "2.0.3"
