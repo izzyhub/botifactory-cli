@@ -31,11 +31,11 @@ async fn main() -> Result<()> {
                 match verb {
                     ProjectVerb::Show => {
                         let response = api.get_project().await?;
-                        println!("response: {response}");
+                        println!("response: {response:#?}");
                     }
                     ProjectVerb::Create => {
                         let (response, _) = api.new_project(&name).await?;
-                        println!("response: {response}");
+                        println!("response: {response:#?}");
                     }
                 }
             }
@@ -56,7 +56,7 @@ async fn main() -> Result<()> {
                         }?;
 
                         let (channel_json, _) = api.new_channel(&name).await?;
-                        println!("channel: {channel_json}")
+                        println!("channel: {channel_json:#?}")
                     }
                     ChannelVerb::Show => {
                         let id = if identifier.name.is_some() {
@@ -74,7 +74,7 @@ async fn main() -> Result<()> {
 
                         let channel_api = api.channel(id);
                         let response = channel_api.get_channel().await?;
-                        println!("response: {response}");
+                        println!("response: {response:#?}");
                     }
                 }
             }
@@ -97,7 +97,9 @@ async fn main() -> Result<()> {
                                 identifier.id.expect("Not sure how this happened"),
                             ))
                         } else {
-                            println!("Need a release name or a releasechannel id to show a release");
+                            println!(
+                                "Need a release name or a releasechannel id to show a release"
+                            );
                             Err(CLIError::BadArguments)
                         }?;
 
@@ -105,7 +107,7 @@ async fn main() -> Result<()> {
 
                         let release_api = channel_api.release(release_id);
                         let response = release_api.release_info().await?;
-                        println!("response: {response}");
+                        println!("response: {response:#?}");
                     }
                     ReleaseVerb::Create { path, version } => {
                         let channel_api = api.channel(Identifier::Name(channel_name));
@@ -113,7 +115,7 @@ async fn main() -> Result<()> {
                             .new_release(NewRelease::new(version, path))
                             .await?;
 
-                        println!("release_json: {release_json}");
+                        println!("release_json: {release_json:#?}");
                     }
                     ReleaseVerb::Download { path } => {
                         let release_id = if identifier.name.is_some() {
@@ -150,13 +152,13 @@ async fn main() -> Result<()> {
                         //let url = api.get_project_url()?;
                         //println!("project_url: {url}");
                         let response = api.get_project().await?;
-                        println!("response: {response}")
+                        println!("response: {response:#?}")
                     }
                     ProjectVerb::Create => {
                         //let url = api.new_project_url()?;
                         //println!("project_url: {url}");
                         let (response, _) = api.new_project(&settings.project_name).await?;
-                        println!("response: {response}")
+                        println!("response: {response:#?}")
                     }
                 }
             }
@@ -179,7 +181,7 @@ async fn main() -> Result<()> {
                     //let url = channel.get_channel_url()?;
                     //println!("url: {url}");
                     let response = channel.get_channel().await?;
-                    println!("response: {response}")
+                    println!("response: {response:#?}")
                 }
                 ChannelVerb::Create => {
                     let channel_name = if settings.channel_name.is_some() {
@@ -193,7 +195,7 @@ async fn main() -> Result<()> {
                     //println!("url: {url}");
 
                     let (channel_json, _) = api.new_channel(&channel_name).await?;
-                    println!("channel_json: {channel_json}")
+                    println!("channel_json: {channel_json:#?}")
                 }
             },
             Commands::Release { verb } => {
@@ -232,7 +234,7 @@ async fn main() -> Result<()> {
                         //println!("url: {url}");
 
                         let response = release_api.release_info().await?;
-                        println!("response: {response}");
+                        println!("response: {response:#?}");
                     }
                     ReleaseVerb::Create { path, version } => {
                         let channel_id = if settings.channel_name.is_some() {
@@ -258,7 +260,7 @@ async fn main() -> Result<()> {
                             .new_release(NewRelease::new(version, path))
                             .await?;
 
-                        println!("release_json: {release_json}");
+                        println!("release_json: {release_json:#?}");
                     }
                     ReleaseVerb::Download { path } => {
                         println!("release verb download");
